@@ -15,7 +15,7 @@ const otpStore = {};
 // Middleware
 app.use(requestLogger);
 app.use(express.json());
-
+app.use(cookieParser())
 
 app.get("/", (req, res) => {
   res.json({
@@ -48,8 +48,9 @@ app.post("/auth/login", (req, res) => {
 
     // Store OTP
     otpStore[loginSessionId] = otp;
+    (otpStore);
 
-    console.log(`[OTP] Session ${loginSessionId} generated`);
+    (`[${otp}] Session ${loginSessionId} generated`);
 
     return res.status(200).json({
       message: "OTP sent",
@@ -68,9 +69,7 @@ app.post("/auth/verify-otp", (req, res) => {
     const { loginSessionId, otp } = req.body;
 
     if (!loginSessionId || !otp) {
-      return res
-        .status(400)
-        .json({ error: "loginSessionId and otp required" });
+      return res.status(400).json({ error: "loginSessionId and otp required" });
     }
 
     const session = loginSessions[loginSessionId];
@@ -83,7 +82,7 @@ app.post("/auth/verify-otp", (req, res) => {
       return res.status(401).json({ error: "Session expired" });
     }
 
-    if (parseInt(otp) !== otpStore[loginSessionId]) {
+    if (String(otp) !== String(otpStore[loginSessionId])) {
       return res.status(401).json({ error: "Invalid OTP" });
     }
 
@@ -109,7 +108,7 @@ app.post("/auth/verify-otp", (req, res) => {
 
 app.post("/auth/token", (req, res) => {
   try {
-    const token = req.headers.authorization;
+    const token = req.cookies.session_token;
 
     if (!token) {
       return res
@@ -134,7 +133,7 @@ app.post("/auth/token", (req, res) => {
       secret,
       {
         expiresIn: "15m",
-      }
+      },
     );
 
     return res.status(200).json({
@@ -159,5 +158,5 @@ app.get("/protected", authMiddleware, (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  (`Server running at http://localhost:${PORT}`);
 });

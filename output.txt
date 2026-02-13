@@ -1,0 +1,32 @@
+# Endpoint: POST /auth/login
+
+{
+    "message":"OTP sent","loginSessionId":"d71aaa"
+}
+
+# Endpoint: POST /auth/verify-otp
+
+{
+    "message":"OTP verified",
+    "sessionId":"d71aaa"
+}
+
+# Endpoint: POST /auth/token
+
+{
+    "access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFtaXRAZXhhbXBsZS5jb20iLCJzZXNzaW9uSWQiOiJkNzFhYWEiLCJpYXQiOjE3NzA5Nzg5MDYsImV4cCI6MTc3MDk3OTgwNn0.NgSBuaQh1SdNW7WOObu5HNSL_56ngEhTLEfSbovVgzQ",
+    "expires_in":900
+}
+
+# Endpoint: GET /protected
+
+{
+    "message":"Access granted",
+    "user":{
+        "email":"amit@example.com",
+        "sessionId":"d71aaa",
+        "iat":1770978906,
+        "exp":1770979806
+        },
+    "success_flag":"FLAG-YW1pdEBleGFtcGxlLmNvbV9DT01QTEVURURfQVNTSUdOTUVOVA=="
+}
